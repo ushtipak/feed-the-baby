@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,7 +40,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Log.d(TAG, "-> " + methodName);
 
         mealItem mealItem = (mealItem) holder;
-        mealItem.mealTV.setText(mealList.get(position));
+
+        String[] mealInfo = mealList.get(position).split(" ⇒ ");
+        mealItem.tvMealType.setText(mealInfo[0]);
+        mealItem.tvMealDetail.setText(mealInfo[1]);
+
         mealItem.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,14 +70,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public static class mealItem extends RecyclerView.ViewHolder {
 
-        TextView mealTV;
+        TextView tvMealType;
+        TextView tvMealDetail;
         Button btnRemove;
         Button btnEdit;
 
         mealItem(View itemView) {
             super(itemView);
 
-            mealTV = itemView.findViewById(R.id.tvMeal);
+            tvMealType = itemView.findViewById(R.id.tvMealType);
+            tvMealDetail = itemView.findViewById(R.id.tvMealDetail);
             btnRemove = itemView.findViewById(R.id.btnRemove);
             btnEdit = itemView.findViewById(R.id.btnEdit);
         }

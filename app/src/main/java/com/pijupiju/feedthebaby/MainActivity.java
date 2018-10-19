@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         List<String> mealList = new ArrayList<>();
-        mealList.add("L | 17:14");
-        mealList.add("R | 17:41");
-        mealList.add("L | 19:06");
-        mealList.add("R | 19:22");
-        mealList.add("\uD83C\uDF7C | 19:51 (45 ml)");
+        mealList.add("L ⇒ 17:14");
+        mealList.add("R ⇒ 17:41");
+        mealList.add("L ⇒ 19:06");
+        mealList.add("R ⇒ 19:22");
+        mealList.add("\uD83C\uDF7C ⇒ 19:51 (45 ml)");
 
         return mealList;
     }
