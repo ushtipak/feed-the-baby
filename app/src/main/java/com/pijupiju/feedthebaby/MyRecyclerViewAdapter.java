@@ -43,6 +43,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Meal meal = mealList.get(position);
 
         mealItem.tvMealType.setText(meal.getMealType().toString());
+        switch (meal.getMealType()) {
+            case BABY_FOOD:
+                mealItem.tvMealType.setText("\uD83C\uDF7C");
+                break;
+            default:
+                mealItem.tvMealType.setText(String.valueOf(meal.getMealType().toString().charAt(0)));
+        }
         mealItem.tvMealDetail.setText(meal.getMealDetail());
 
         mealItem.btnRemove.setOnClickListener(new View.OnClickListener() {
