@@ -1,25 +1,20 @@
 package com.pijupiju.feedthebaby;
 
-enum MealType {
-    LEFT_BOOB,
-    RIGHT_BOOB,
-    BABY_FOOD
-}
 
 public class Meal {
-    private MealType mealType;
+    private MainActivity.MealType mealType;
     private String mealDetail;
 
-    public Meal(MealType mealType, String mealDetail) {
+    public Meal(MainActivity.MealType mealType, String mealDetail) {
         this.mealType = mealType;
         this.mealDetail = mealDetail;
     }
 
-    public MealType getMealType() {
+    public MainActivity.MealType getMealType() {
         return mealType;
     }
 
-    public void setMealType(MealType mealType) {
+    public void setMealType(MainActivity.MealType mealType) {
         this.mealType = mealType;
     }
 

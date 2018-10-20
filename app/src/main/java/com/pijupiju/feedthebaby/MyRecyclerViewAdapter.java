@@ -16,9 +16,9 @@ import java.util.Objects;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = MainActivity.class.getSimpleName();
-    private List<String> mealList;
+    private List<Meal> mealList;
 
-    MyRecyclerViewAdapter(List<String> mealList) {
+    MyRecyclerViewAdapter(List<Meal> mealList) {
         this.mealList = mealList;
     }
 
@@ -40,10 +40,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Log.d(TAG, "-> " + methodName);
 
         mealItem mealItem = (mealItem) holder;
+        Meal meal = mealList.get(position);
 
-        String[] mealInfo = mealList.get(position).split(" ⇒ ");
-        mealItem.tvMealType.setText(mealInfo[0]);
-        mealItem.tvMealDetail.setText(mealInfo[1]);
+        mealItem.tvMealType.setText(meal.getMealType().toString());
+        mealItem.tvMealDetail.setText(meal.getMealDetail());
 
         mealItem.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override

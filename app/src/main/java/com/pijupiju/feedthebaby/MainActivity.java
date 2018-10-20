@@ -14,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     RecyclerView recyclerView;
 
+    enum MealType {
+        LEFT_BOOB,
+        RIGHT_BOOB,
+        BABY_FOOD
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +43,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public List<String> getMeals() {
+    public List<Meal> getMeals() {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        List<String> mealList = new ArrayList<>();
-        mealList.add("L ⇒ 17:14");
-        mealList.add("R ⇒ 17:41");
-        mealList.add("L ⇒ 19:06");
-        mealList.add("R ⇒ 19:22");
-        mealList.add("\uD83C\uDF7C ⇒ 19:51 (45 ml)");
+        List<Meal> mealList = new ArrayList<>();
+        mealList.add(new Meal(MealType.LEFT_BOOB, "17:14"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "17:41"));
+        mealList.add(new Meal(MealType.LEFT_BOOB, "19:06"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "19:22"));
+        mealList.add(new Meal(MealType.BABY_FOOD, "19:51 (45 ml)"));
 
         return mealList;
     }
