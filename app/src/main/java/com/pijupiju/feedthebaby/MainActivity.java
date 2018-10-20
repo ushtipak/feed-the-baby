@@ -1,10 +1,13 @@
 package com.pijupiju.feedthebaby;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     RecyclerView recyclerView;
+    FloatingActionButton fab;
 
     enum MealType {
         LEFT_BOOB,
@@ -41,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(getMeals());
         recyclerView.setAdapter(adapter);
+
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "FAB", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public List<Meal> getMeals() {
