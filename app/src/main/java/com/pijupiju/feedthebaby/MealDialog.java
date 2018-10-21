@@ -3,6 +3,8 @@ package com.pijupiju.feedthebaby;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MealDialog extends AppCompatDialogFragment {
@@ -47,7 +50,7 @@ public class MealDialog extends AppCompatDialogFragment {
 
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         String currentTime = dateFormat.format(date);
 
         etTime.setText(currentTime);
@@ -63,7 +66,18 @@ public class MealDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String mealTime = etTime.getText().toString();
-                        MainActivity.MealType mealType = MainActivity.MealType.RIGHT_BOOB;
+
+
+                        MainActivity.MealType mealType = null;
+                        Integer selectColor = getResources().getColor(R.color.colorPrimaryDark);
+
+                        if (selectColor.equals(((ColorDrawable) btnLeft.getBackground()).getColor())) {
+                            mealType = MainActivity.MealType.LEFT_BOOB;
+                        } else if (selectColor.equals(((ColorDrawable) btnRight.getBackground()).getColor())) {
+                            mealType = MainActivity.MealType.RIGHT_BOOB;
+                        } else if (selectColor.equals(((ColorDrawable) btnBottle.getBackground()).getColor())) {
+                            mealType = MainActivity.MealType.BABY_FOOD;
+                        }
 
                         Integer mealMl;
                         String mealMlInput = etMl.getText().toString();
