@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
     private final static String TAG = MainActivity.class.getSimpleName();
     RecyclerView recyclerView;
     FloatingActionButton fab;
+    List<Meal> mealList = new ArrayList<>();
+    MyRecyclerViewAdapter adapter;
 
     enum MealType {
         LEFT_BOOB,
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.rvMeals);
         recyclerView.setLayoutManager(layoutManager);
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(getMeals());
+        adapter = new MyRecyclerViewAdapter(getMeals());
         recyclerView.setAdapter(adapter);
 
         fab = findViewById(R.id.fab);
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        List<Meal> mealList = new ArrayList<>();
         mealList.add(new Meal(MealType.LEFT_BOOB, "17:14"));
         mealList.add(new Meal(MealType.RIGHT_BOOB, "17:41"));
         mealList.add(new Meal(MealType.LEFT_BOOB, "19:06"));
@@ -78,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
 
         Log.d("TAG", "addMeal - mealTime: " + mealTime + " mealType: " + mealType + " mealMl: " + mealMl);
 
+        String maelDetail;
+        if (mealType.equals(MealType.BABY_FOOD)) {
+            maelDetail = mealTime + "(" + mealMl + ")";
+        } else {
+            maelDetail = mealTime;
+        }
+        mealList.add(new Meal(mealType, maelDetail));
+        adapter.notifyDataSetChanged();
     }
 
 }
