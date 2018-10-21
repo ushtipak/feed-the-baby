@@ -14,7 +14,7 @@
     </style>
 
     <style name="MyDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MealDialog.MealDialogListener {
     private final static String TAG = MainActivity.class.getSimpleName();
     RecyclerView recyclerView;
     FloatingActionButton fab;
@@ -69,4 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
         return mealList;
     }
+
+    @Override
+    public void addMeal(String mealTime, MealType mealType, Integer mealMl) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+
+        Log.d("TAG", "addMeal - mealTime: " + mealTime + " mealType: " + mealType + " mealMl: " + mealMl);
+
+    }
+
 }
