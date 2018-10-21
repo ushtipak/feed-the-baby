@@ -1,5 +1,6 @@
 package com.pijupiju.feedthebaby;
 
+import android.app.Dialog;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +61,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mealItem.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "EDIT", Toast.LENGTH_SHORT).show();
+                final Dialog dialog = new Dialog(v.getContext());
+                dialog.setContentView(R.layout.dialog_edit_meal);
+                dialog.show();
             }
         });
     }

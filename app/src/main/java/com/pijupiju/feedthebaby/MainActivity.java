@@ -67,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         mealList.add(new Meal(MealType.LEFT_BOOB, "19:06"));
         mealList.add(new Meal(MealType.RIGHT_BOOB, "19:22"));
         mealList.add(new Meal(MealType.BABY_FOOD, "19:51 (45 ml)"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "20:02"));
+        mealList.add(new Meal(MealType.LEFT_BOOB, "20:17"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "22:12"));
+        mealList.add(new Meal(MealType.LEFT_BOOB, "22:41"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "23:13"));
 
         return mealList;
     }
