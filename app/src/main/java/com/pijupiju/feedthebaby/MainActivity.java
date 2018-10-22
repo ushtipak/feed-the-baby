@@ -1,5 +1,6 @@
 package com.pijupiju.feedthebaby;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.rvMeals);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyRecyclerViewAdapter(getMeals());
+        adapter = new MyRecyclerViewAdapter(this, getMeals());
         recyclerView.setAdapter(adapter);
 
         fab = findViewById(R.id.fab);

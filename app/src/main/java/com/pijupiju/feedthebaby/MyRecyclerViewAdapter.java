@@ -1,7 +1,11 @@
 package com.pijupiju.feedthebaby;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +20,11 @@ import java.util.Objects;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = MainActivity.class.getSimpleName();
+    private Context context;
     private List<Meal> mealList;
 
-    MyRecyclerViewAdapter(List<Meal> mealList) {
+    MyRecyclerViewAdapter(Context context, List<Meal> mealList) {
+        this.context = context;
         this.mealList = mealList;
     }
 
@@ -40,7 +46,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Log.d(TAG, "-> " + methodName);
 
         mealItem mealItem = (mealItem) holder;
-        Meal meal = mealList.get(position);
+        final Meal meal = mealList.get(position);
 
         mealItem.tvMealType.setText(meal.getMealType().toString());
         switch (meal.getMealType()) {
@@ -55,15 +61,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mealItem.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "REMOVE", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Remove meal?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mealList.remove(meal);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("no", null);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         mealItem.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.setContentView(R.layout.dialog_edit_meal);
-                dialog.show();
+                Toast.makeText(v.getContext(), "EDIT", Toast.LENGTH_SHORT).show();
+                MealDialog mealDialog = new MealDialog();
+                mealDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "Meal Dialog");
             }
         });
     }
