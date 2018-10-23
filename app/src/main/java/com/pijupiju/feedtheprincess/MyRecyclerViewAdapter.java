@@ -1,6 +1,5 @@
-package com.pijupiju.feedthebaby;
+package com.pijupiju.feedtheprincess;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;

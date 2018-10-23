@@ -1,4 +1,4 @@
-package com.pijupiju.feedthebaby;
+package com.pijupiju.feedtheprincess;
 
 // Acquired from neat works of Mr Mark O'Sullivan:
 //   https://android.jlelse.eu/android-recyclerview-swipeable-items-46a3c763498d

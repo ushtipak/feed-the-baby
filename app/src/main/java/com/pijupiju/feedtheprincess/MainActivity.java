@@ -1,6 +1,5 @@
-package com.pijupiju.feedthebaby;
+package com.pijupiju.feedtheprincess;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;

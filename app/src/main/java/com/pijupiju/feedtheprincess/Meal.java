@@ -1,4 +1,4 @@
-package com.pijupiju.feedthebaby;
+package com.pijupiju.feedtheprincess;
 
 
 public class Meal {
