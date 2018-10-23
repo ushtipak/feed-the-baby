@@ -48,12 +48,39 @@ public class MealDialog extends AppCompatDialogFragment {
         etTime = view.findViewById(R.id.etTime);
         etMl = view.findViewById(R.id.etMl);
 
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String currentTime = dateFormat.format(date);
+        String mealType = "";
+        String mealDetail = "";
+        if (getArguments() != null) {
+            mealType = getArguments().getString("etType");
+            mealDetail = getArguments().getString("etDetail");
+        }
+        if (!Objects.equals(mealDetail, "")) {
+            assert mealType != null;
+            switch (mealType) {
+                case "LEFT_BOOB":
+                    btnLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    break;
+                case "RIGHT_BOOB":
+                    btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    break;
+                case "BABY_FOOD":
+                    btnBottle.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    break;
+            }
+            if (Objects.requireNonNull(mealDetail).length() > 5) {
+                etTime.setText(mealDetail.substring(0,5));
+                etMl.setText(mealDetail.substring(7,9));
+            } else {
+                etTime.setText(mealDetail);
+            }
+        } else {
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            String currentTime = dateFormat.format(date);
 
-        etTime.setText(currentTime);
+            etTime.setText(currentTime);
+        }
 
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {

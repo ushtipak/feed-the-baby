@@ -3,6 +3,7 @@ package com.pijupiju.feedthebaby;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -80,6 +81,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "EDIT", Toast.LENGTH_SHORT).show();
                 MealDialog mealDialog = new MealDialog();
+
+                Bundle args = new Bundle();
+                args.putString("etDetail", meal.getMealDetail());
+                args.putString("etType", meal.getMealType().toString());
+                mealDialog.setArguments(args);
+
                 mealDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "Meal Dialog");
             }
         });
