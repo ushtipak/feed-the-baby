@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        Log.d("HOUSERULES", "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", id:" + id + ", updated: " + updated);
+        Log.d(TAG, "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", id:" + id + ", updated: " + updated);
 
         String mealDetail;
         if (mealType.equals(MealType.BABY_FOOD)) {
