@@ -50,12 +50,15 @@ public class MealDialog extends AppCompatDialogFragment {
         String mealType = "";
         String mealDetail = "";
         String id = "";
+        String nextMeal = "";
         final Boolean updated;
         if (getArguments() != null) {
+            nextMeal = getArguments().getString("nextMeal");
             mealType = getArguments().getString("etType");
             mealDetail = getArguments().getString("etDetail");
             id = getArguments().getString("id");
         }
+        Log.d(TAG, "nextMeal: " + nextMeal + ", mealType: " + mealType + ", mealDetail: " + mealDetail + ", id: " + id);
         if (!Objects.equals(mealDetail, "")) {
             updated = true;
             assert mealType != null;
@@ -87,6 +90,12 @@ public class MealDialog extends AppCompatDialogFragment {
 
             DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-S", Locale.getDefault());
             id = dateFormatForId.format(date);
+
+            if (Objects.requireNonNull(nextMeal).equals("LEFT_BOOB")) {
+                btnLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else {
+                btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
         }
 
         final String finalId = id;

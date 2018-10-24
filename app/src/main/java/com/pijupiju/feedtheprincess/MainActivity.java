@@ -2,6 +2,7 @@ package com.pijupiju.feedtheprincess;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
             @Override
             public void onClick(View view) {
                 MealDialog mealDialog = new MealDialog();
+                Bundle args = new Bundle();
+                args.putString("nextMeal", getNextMeal());
+                args.putString("etDetail", "");
+                args.putString("etType", "");
+                args.putString("id", "");
+                mealDialog.setArguments(args);
                 mealDialog.show(getSupportFragmentManager(), "Meal Dialog");
             }
         });
@@ -102,5 +109,11 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }
         adapter.notifyDataSetChanged();
     }
+
+    private String getNextMeal() {
+        Log.d(TAG, String.valueOf(mealList));
+        return "RIGHT_BOOB";
+    }
+
 
 }
