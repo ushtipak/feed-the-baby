@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         } else {
             mealList.add(new Meal(mealType, mealDetail, id));
         }
+        while (mealList.size() > 6) {
+            mealList.remove(0);
+        }
         adapter.notifyDataSetChanged();
     }
 
