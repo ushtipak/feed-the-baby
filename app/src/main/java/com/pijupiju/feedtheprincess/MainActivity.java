@@ -112,19 +112,22 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
     private String getNextMeal() {
         Log.d(TAG, String.valueOf(mealList));
 
-        MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
-        MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
+        try {
+            MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
+            MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
 
-        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB) ||
-                (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB))) {
-            return "LEFT_BOOB";
+            if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB) ||
+                    (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB))) {
+                return "LEFT_BOOB";
+            }
+            if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB) ||
+                    lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
+                Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
+                return "RIGHT_BOOB";
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
-        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB) ||
-                lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
-            Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
-            return "RIGHT_BOOB";
-        }
-
         return "";
     }
 
