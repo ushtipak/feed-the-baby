@@ -124,7 +124,7 @@ public class MealDialog extends AppCompatDialogFragment {
                         }
 
                         Integer mealMl;
-                        String mealMlInput = etMl.getText().toString();
+                        String mealMlInput = etMl.getText().toString().trim();
                         if (mealMlInput.equals("")) {
                             mealMl = 0;
                         } else {
