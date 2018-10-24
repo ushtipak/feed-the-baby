@@ -62,27 +62,23 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        mealList.add(new Meal(MealType.LEFT_BOOB, "17:14"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "17:41"));
-        mealList.add(new Meal(MealType.LEFT_BOOB, "19:06"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "19:22"));
-        mealList.add(new Meal(MealType.BABY_FOOD, "19:51 (45 ml)"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "20:02"));
-        mealList.add(new Meal(MealType.LEFT_BOOB, "20:17"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "22:12"));
-        mealList.add(new Meal(MealType.LEFT_BOOB, "22:41"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "23:13"));
+        mealList.add(new Meal(MealType.LEFT_BOOB, "17:14", "2018-10-24-178"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "17:41", "2018-10-24-221"));
+        mealList.add(new Meal(MealType.BABY_FOOD, "19:51 (45 ml)", "2018-10-24-377"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "20:02", "2018-10-24-420"));
+        mealList.add(new Meal(MealType.LEFT_BOOB, "20:17", "2018-10-24-618"));
+        mealList.add(new Meal(MealType.RIGHT_BOOB, "22:12", "2018-10-24-933"));
 
         return mealList;
     }
 
     @Override
-    public void setMeal(String mealTime, MealType mealType, Integer mealMl, Boolean updated) {
+    public void setMeal(String mealTime, MealType mealType, Integer mealMl, String id, Boolean updated) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        Log.d("TAG", "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", updated: " + updated);
+        Log.d("HOUSERULES", "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", id:" + id + ", updated: " + updated);
 
         String mealDetail;
         if (mealType.equals(MealType.BABY_FOOD)) {
@@ -90,7 +86,17 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         } else {
             mealDetail = mealTime;
         }
-        mealList.add(new Meal(mealType, mealDetail));
+
+        if (updated) {
+            for (Meal meal: mealList) {
+                if (meal.getId().equals(id)) {
+                    meal.setMealType(mealType);
+                    meal.setMealDetail(mealDetail);
+                }
+            }
+        } else {
+            mealList.add(new Meal(mealType, mealDetail, id));
+        }
         adapter.notifyDataSetChanged();
     }
 

@@ -84,6 +84,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Bundle args = new Bundle();
                 args.putString("etDetail", meal.getMealDetail());
                 args.putString("etType", meal.getMealType().toString());
+                args.putString("id", meal.getId());
                 mealDialog.setArguments(args);
 
                 mealDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "Meal Dialog");

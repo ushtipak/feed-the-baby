@@ -49,10 +49,12 @@ public class MealDialog extends AppCompatDialogFragment {
 
         String mealType = "";
         String mealDetail = "";
+        String id = "";
         final Boolean updated;
         if (getArguments() != null) {
             mealType = getArguments().getString("etType");
             mealDetail = getArguments().getString("etDetail");
+            id = getArguments().getString("id");
         }
         if (!Objects.equals(mealDetail, "")) {
             updated = true;
@@ -78,12 +80,16 @@ public class MealDialog extends AppCompatDialogFragment {
             updated = false;
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            String currentTime = dateFormat.format(date);
+            DateFormat dateFormatForDisplay = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            String currentTime = dateFormatForDisplay.format(date);
 
             etTime.setText(currentTime);
+
+            DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-S", Locale.getDefault());
+            id = dateFormatForId.format(date);
         }
 
+        final String finalId = id;
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -116,7 +122,7 @@ public class MealDialog extends AppCompatDialogFragment {
                             mealMl = Integer.parseInt(mealMlInput);
                         }
 
-                        listener.setMeal(mealTime, mealType, mealMl, updated);
+                        listener.setMeal(mealTime, mealType, mealMl, finalId, updated);
                     }
                 });
 
@@ -177,7 +183,7 @@ public class MealDialog extends AppCompatDialogFragment {
     }
 
     public interface MealDialogListener {
-        void setMeal(String mealTime, MainActivity.MealType mealType, Integer mealMl, Boolean updated);
+        void setMeal(String mealTime, MainActivity.MealType mealType, Integer mealMl, String id, Boolean updated);
     }
 
 }

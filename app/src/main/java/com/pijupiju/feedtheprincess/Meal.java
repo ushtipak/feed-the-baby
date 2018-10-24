@@ -4,13 +4,23 @@ package com.pijupiju.feedtheprincess;
 public class Meal {
     private MainActivity.MealType mealType;
     private String mealDetail;
+    private String id;
 
-    public Meal(MainActivity.MealType mealType, String mealDetail) {
+    Meal(MainActivity.MealType mealType, String mealDetail, String id) {
         this.mealType = mealType;
         this.mealDetail = mealDetail;
+        this.id = id;
     }
 
-    public MainActivity.MealType getMealType() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    MainActivity.MealType getMealType() {
         return mealType;
     }
 
@@ -18,7 +28,7 @@ public class Meal {
         this.mealType = mealType;
     }
 
-    public String getMealDetail() {
+    String getMealDetail() {
         return mealDetail;
     }
 
