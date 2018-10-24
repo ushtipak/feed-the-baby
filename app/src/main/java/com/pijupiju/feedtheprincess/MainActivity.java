@@ -2,7 +2,6 @@ package com.pijupiju.feedtheprincess;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }
 
         if (updated) {
-            for (Meal meal: mealList) {
+            for (Meal meal : mealList) {
                 if (meal.getId().equals(id)) {
                     meal.setMealType(mealType);
                     meal.setMealDetail(mealDetail);
@@ -117,20 +115,13 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
         MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
 
-        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB)) {
-            Log.d("INSPECT", "RIGHT_BOOB + RIGHT_BOOB = LEFT_BOOB");
+        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB) ||
+                (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB))) {
             return "LEFT_BOOB";
         }
-        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB)) {
-            Log.d("INSPECT", "LEFT_BOOB + RIGHT_BOOB = LEFT_BOOB");
-            return "LEFT_BOOB";
-        }
-        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
+        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB) ||
+                lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
             Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
-            return "RIGHT_BOOB";
-        }
-        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
-            Log.d("INSPECT", "RIGHT_BOOB + LEFT_BOOB = RIGHT_BOOB");
             return "RIGHT_BOOB";
         }
 
