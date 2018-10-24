@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -112,7 +113,28 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
 
     private String getNextMeal() {
         Log.d(TAG, String.valueOf(mealList));
-        return "RIGHT_BOOB";
+
+        MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
+        MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
+
+        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB)) {
+            Log.d("INSPECT", "RIGHT_BOOB + RIGHT_BOOB = LEFT_BOOB");
+            return "LEFT_BOOB";
+        }
+        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB)) {
+            Log.d("INSPECT", "LEFT_BOOB + RIGHT_BOOB = LEFT_BOOB");
+            return "LEFT_BOOB";
+        }
+        if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
+            Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
+            return "RIGHT_BOOB";
+        }
+        if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
+            Log.d("INSPECT", "RIGHT_BOOB + LEFT_BOOB = RIGHT_BOOB");
+            return "RIGHT_BOOB";
+        }
+
+        return "";
     }
 
 
