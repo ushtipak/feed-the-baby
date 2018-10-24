@@ -49,11 +49,13 @@ public class MealDialog extends AppCompatDialogFragment {
 
         String mealType = "";
         String mealDetail = "";
+        final Boolean updated;
         if (getArguments() != null) {
             mealType = getArguments().getString("etType");
             mealDetail = getArguments().getString("etDetail");
         }
         if (!Objects.equals(mealDetail, "")) {
+            updated = true;
             assert mealType != null;
             switch (mealType) {
                 case "LEFT_BOOB":
@@ -73,6 +75,7 @@ public class MealDialog extends AppCompatDialogFragment {
                 etTime.setText(mealDetail);
             }
         } else {
+            updated = false;
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
             DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -113,7 +116,7 @@ public class MealDialog extends AppCompatDialogFragment {
                             mealMl = Integer.parseInt(mealMlInput);
                         }
 
-                        listener.addMeal(mealTime, mealType, mealMl);
+                        listener.setMeal(mealTime, mealType, mealMl, updated);
                     }
                 });
 
@@ -174,7 +177,7 @@ public class MealDialog extends AppCompatDialogFragment {
     }
 
     public interface MealDialogListener {
-        void addMeal(String mealTime, MainActivity.MealType mealType, Integer mealMl);
+        void setMeal(String mealTime, MainActivity.MealType mealType, Integer mealMl, Boolean updated);
     }
 
 }

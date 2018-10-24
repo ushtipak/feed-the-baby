@@ -77,12 +77,12 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
     }
 
     @Override
-    public void addMeal(String mealTime, MealType mealType, Integer mealMl) {
+    public void setMeal(String mealTime, MealType mealType, Integer mealMl, Boolean updated) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        Log.d("TAG", "addMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl);
+        Log.d("TAG", "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", updated: " + updated);
 
         String mealDetail;
         if (mealType.equals(MealType.BABY_FOOD)) {
