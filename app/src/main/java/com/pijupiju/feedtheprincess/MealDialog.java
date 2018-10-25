@@ -63,13 +63,13 @@ public class MealDialog extends AppCompatDialogFragment {
             updated = true;
             assert mealType != null;
             switch (mealType) {
-                case "LEFT_BOOB":
+                case "LEVA_SIKA":
                     btnLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     break;
-                case "RIGHT_BOOB":
+                case "DESNA_SIKA":
                     btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     break;
-                case "BABY_FOOD":
+                case "DOHRANICA":
                     btnBottle.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     break;
             }
@@ -91,7 +91,7 @@ public class MealDialog extends AppCompatDialogFragment {
             DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-HH-mm-S", Locale.getDefault());
             id = dateFormatForId.format(date);
 
-            if (Objects.requireNonNull(nextMeal).equals("LEFT_BOOB")) {
+            if (Objects.requireNonNull(nextMeal).equals("LEVA_SIKA")) {
                 btnLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             } else {
                 btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -116,11 +116,11 @@ public class MealDialog extends AppCompatDialogFragment {
                         Integer selectColor = getResources().getColor(R.color.colorPrimaryDark);
 
                         if (selectColor.equals(((ColorDrawable) btnLeft.getBackground()).getColor())) {
-                            mealType = MainActivity.MealType.LEFT_BOOB;
+                            mealType = MainActivity.MealType.LEVA_SIKA;
                         } else if (selectColor.equals(((ColorDrawable) btnRight.getBackground()).getColor())) {
-                            mealType = MainActivity.MealType.RIGHT_BOOB;
+                            mealType = MainActivity.MealType.DESNA_SIKA;
                         } else if (selectColor.equals(((ColorDrawable) btnBottle.getBackground()).getColor())) {
-                            mealType = MainActivity.MealType.BABY_FOOD;
+                            mealType = MainActivity.MealType.DOHRANICA;
                         }
 
                         Integer mealMl;

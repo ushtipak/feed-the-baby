@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
     FloatingActionButton fab;
 
     enum MealType {
-        LEFT_BOOB,
-        RIGHT_BOOB,
-        BABY_FOOD
+        LEVA_SIKA,
+        DESNA_SIKA,
+        DOHRANICA
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         Log.d(TAG, "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", id:" + id + ", updated: " + updated);
 
         String mealDetail;
-        if (mealType.equals(MealType.BABY_FOOD)) {
+        if (mealType.equals(MealType.DOHRANICA)) {
             mealDetail = mealTime + " (" + mealMl + " ml)";
         } else {
             mealDetail = mealTime;

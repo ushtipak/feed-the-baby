@@ -91,14 +91,14 @@ public class MealStorage {
             MainActivity.MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
             MainActivity.MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
 
-            if (lastMeal.equals(MainActivity.MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MainActivity.MealType.RIGHT_BOOB) ||
-                    (lastMeal.equals(MainActivity.MealType.LEFT_BOOB) && oneBeforeMeal.equals(MainActivity.MealType.RIGHT_BOOB))) {
-                return "LEFT_BOOB";
+            if (lastMeal.equals(MainActivity.MealType.DESNA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.DESNA_SIKA) ||
+                    (lastMeal.equals(MainActivity.MealType.LEVA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.DESNA_SIKA))) {
+                return "LEVA_SIKA";
             }
-            if (lastMeal.equals(MainActivity.MealType.LEFT_BOOB) && oneBeforeMeal.equals(MainActivity.MealType.LEFT_BOOB) ||
-                    lastMeal.equals(MainActivity.MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MainActivity.MealType.LEFT_BOOB)) {
-                Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
-                return "RIGHT_BOOB";
+            if (lastMeal.equals(MainActivity.MealType.LEVA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.LEVA_SIKA) ||
+                    lastMeal.equals(MainActivity.MealType.DESNA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.LEVA_SIKA)) {
+                Log.d("INSPECT", "LEVA_SIKA + LEVA_SIKA = DESNA_SIKA");
+                return "DESNA_SIKA";
             }
         } catch (Exception e) {
             Log.e(TAG, e.toString());

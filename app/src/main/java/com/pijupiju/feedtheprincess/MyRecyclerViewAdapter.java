@@ -50,7 +50,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         mealItem.tvMealType.setText(meal.getMealType().toString());
         switch (meal.getMealType()) {
-            case BABY_FOOD:
+            case DOHRANICA:
                 mealItem.tvMealType.setText("\uD83C\uDF7C");
                 break;
             default:
