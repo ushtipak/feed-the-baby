@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements MealDialog.MealDialogListener {
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
             MealStorage.getInstance().mealList.add(new Meal(mealType, mealDetail, id));
         }
         while (MealStorage.getInstance().mealList.size() > 6) {
+            MealStorage.getInstance().saveHistoricalData(this, MealStorage.getInstance().mealList.get(0));
             MealStorage.getInstance().mealList.remove(0);
         }
         MealStorage.getInstance().saveMeals(this);
