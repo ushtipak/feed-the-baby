@@ -88,7 +88,7 @@ public class MealDialog extends AppCompatDialogFragment {
 
             etTime.setText(currentTime);
 
-            DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-S", Locale.getDefault());
+            DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-HH-mm-S", Locale.getDefault());
             id = dateFormatForId.format(date);
 
             if (Objects.requireNonNull(nextMeal).equals("LEFT_BOOB")) {

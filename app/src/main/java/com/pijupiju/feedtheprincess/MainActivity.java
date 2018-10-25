@@ -14,10 +14,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements MealDialog.MealDialogListener {
     private final static String TAG = MainActivity.class.getSimpleName();
+    MyRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
     FloatingActionButton fab;
-    List<Meal> mealList = new ArrayList<>();
-    MyRecyclerViewAdapter adapter;
 
     enum MealType {
         LEFT_BOOB,
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.rvMeals);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyRecyclerViewAdapter(this, getMeals());
+        adapter = new MyRecyclerViewAdapter(this, MealStorage.getInstance().getMealList(this));
         recyclerView.setAdapter(adapter);
 
         fab = findViewById(R.id.fab);
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
             public void onClick(View view) {
                 MealDialog mealDialog = new MealDialog();
                 Bundle args = new Bundle();
-                args.putString("nextMeal", getNextMeal());
+                args.putString("nextMeal", MealStorage.getInstance().getNextMeal());
                 args.putString("etDetail", "");
                 args.putString("etType", "");
                 args.putString("id", "");
@@ -61,21 +60,6 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
                 mealDialog.show(getSupportFragmentManager(), "Meal Dialog");
             }
         });
-    }
-
-    public List<Meal> getMeals() {
-        String methodName = Objects.requireNonNull(new Object() {
-        }.getClass().getEnclosingMethod()).getName();
-        Log.d(TAG, "-> " + methodName);
-
-        mealList.add(new Meal(MealType.LEFT_BOOB, "17:14", "2018-10-24-178"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "17:41", "2018-10-24-221"));
-        mealList.add(new Meal(MealType.BABY_FOOD, "19:51 (45 ml)", "2018-10-24-377"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "20:02", "2018-10-24-420"));
-        mealList.add(new Meal(MealType.LEFT_BOOB, "20:17", "2018-10-24-618"));
-        mealList.add(new Meal(MealType.RIGHT_BOOB, "22:12", "2018-10-24-933"));
-
-        return mealList;
     }
 
     @Override
@@ -94,42 +78,20 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }
 
         if (updated) {
-            for (Meal meal : mealList) {
+            for (Meal meal : MealStorage.getInstance().mealList) {
                 if (meal.getId().equals(id)) {
                     meal.setMealType(mealType);
                     meal.setMealDetail(mealDetail);
                 }
             }
         } else {
-            mealList.add(new Meal(mealType, mealDetail, id));
+            MealStorage.getInstance().mealList.add(new Meal(mealType, mealDetail, id));
         }
-        while (mealList.size() > 6) {
-            mealList.remove(0);
+        while (MealStorage.getInstance().mealList.size() > 6) {
+            MealStorage.getInstance().mealList.remove(0);
         }
+        MealStorage.getInstance().saveMeals(this);
         adapter.notifyDataSetChanged();
     }
-
-    private String getNextMeal() {
-        Log.d(TAG, String.valueOf(mealList));
-
-        try {
-            MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
-            MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
-
-            if (lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB) ||
-                    (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.RIGHT_BOOB))) {
-                return "LEFT_BOOB";
-            }
-            if (lastMeal.equals(MealType.LEFT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB) ||
-                    lastMeal.equals(MealType.RIGHT_BOOB) && oneBeforeMeal.equals(MealType.LEFT_BOOB)) {
-                Log.d("INSPECT", "LEFT_BOOB + LEFT_BOOB = RIGHT_BOOB");
-                return "RIGHT_BOOB";
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        return "";
-    }
-
 
 }

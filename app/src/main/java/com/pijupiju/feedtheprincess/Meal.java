@@ -1,7 +1,9 @@
 package com.pijupiju.feedtheprincess;
 
 
-public class Meal {
+import java.io.Serializable;
+
+public class Meal implements Serializable {
     private MainActivity.MealType mealType;
     private String mealDetail;
     private String id;

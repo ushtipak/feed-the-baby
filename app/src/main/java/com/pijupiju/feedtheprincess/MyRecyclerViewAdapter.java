@@ -67,6 +67,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 mealList.remove(meal);
+                                MealStorage.getInstance().saveMeals(context);
                                 notifyDataSetChanged();
                             }
                         })
