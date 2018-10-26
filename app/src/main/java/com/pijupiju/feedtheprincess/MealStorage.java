@@ -8,9 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 class MealStorage {
     private final static String TAG = MealStorage.class.getSimpleName();
@@ -166,6 +166,33 @@ class MealStorage {
 
         List<Meal> allMeals = RetrieveMealList(context, "historical-data");
         allMeals.addAll(RetrieveMealList(context, "meals-active"));
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Date date = cal.getTime();
+        DateFormat yesterday = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        Integer yesterdayMealsTotal = 0;
+        Integer yesterdayMealsBottles = 0;
+        for (Meal meal: allMeals) {
+            if (meal.getId().startsWith(yesterday.format(date))) {
+                yesterdayMealsTotal++;
+                if (meal.getMealDetail().contains("(")) {
+                    yesterdayMealsBottles++;
+                }
+            }
+        }
+
+        StringBuilder yesterdayStats = new StringBuilder();
+        yesterdayStats.append("[YESTERDAY]\n");
+        yesterdayStats.append("  Total Meals: ");
+        yesterdayStats.append(yesterdayMealsTotal);
+        yesterdayStats.append("\n");
+        yesterdayStats.append("  Bottled Meals: ");
+        yesterdayStats.append(yesterdayMealsBottles);
+        yesterdayStats.append("\n");
+
+        Toast.makeText(context, yesterdayStats, Toast.LENGTH_LONG).show();
 
         StringBuilder allTimes = new StringBuilder();
         for (Meal meal : allMeals) {
