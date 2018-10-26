@@ -23,23 +23,12 @@ public class MealStorage {
 
     List<Meal> mealList = new ArrayList<>();
 
-    public List<Meal> getMealList(Context context) {
+    List<Meal> getMealList(Context context) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        String fileName = "meals-active";
-        FileInputStream fileInputStream;
-        try {
-            fileInputStream = context.openFileInput(fileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            mealList = (List<Meal>) objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        Log.d(TAG, "mealList: " + String.valueOf(mealList));
+        mealList = RetrieveMealList(context, "meals-active");
         return mealList;
     }
 
@@ -94,6 +83,27 @@ public class MealStorage {
         }
         return "";
     }
+
+    private List<Meal> RetrieveMealList(Context context, String fileName) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+
+        List<Meal> meals = new ArrayList<>();
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = context.openFileInput(fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            meals = (List<Meal>) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        Log.d(TAG, "mealList: " + String.valueOf(meals));
+        return meals;
+    }
+
 
     private void storeMeals(Context context, String fileName, List<Meal> meals) {
         String methodName = Objects.requireNonNull(new Object() {
