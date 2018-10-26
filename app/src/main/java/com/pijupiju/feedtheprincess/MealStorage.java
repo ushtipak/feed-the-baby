@@ -43,23 +43,12 @@ public class MealStorage {
         return mealList;
     }
 
-    public void saveMeals(Context context) {
+    void saveMeals(Context context) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        String fileName = "meals-active";
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(mealList);
-            objectOutputStream.close();
-            fileOutputStream.close();
-            Log.d(TAG, "mealList: " + String.valueOf(mealList));
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
+        storeMeals(context, "meals-active", mealList);
     }
 
     public void saveHistoricalData(Context context, Meal meal) {
@@ -106,5 +95,22 @@ public class MealStorage {
         return "";
     }
 
+    private void storeMeals(Context context, String fileName, List<Meal> meals) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(mealList);
+            objectOutputStream.close();
+            fileOutputStream.close();
+            Log.d(TAG, "mealList: " + String.valueOf(mealList));
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+    }
 
 }
