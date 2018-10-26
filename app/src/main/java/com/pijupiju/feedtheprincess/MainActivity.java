@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.rvMeals);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyRecyclerViewAdapter(this, MealStorage.getInstance().getMealList(this));
+        adapter = new MyRecyclerViewAdapter(this, MealStorage.getMeals(this));
         recyclerView.setAdapter(adapter);
 
         fab = findViewById(R.id.fab);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
             public void onClick(View view) {
                 MealDialog mealDialog = new MealDialog();
                 Bundle args = new Bundle();
-                args.putString("nextMeal", MealStorage.getInstance().getNextMeal());
+                args.putString("nextMeal", MealStorage.getNextMeal(getApplicationContext()));
                 args.putString("etDetail", "");
                 args.putString("etType", "");
                 args.putString("id", "");
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        Log.d(TAG, "setMeal - mealTime: " + mealTime + ", mealType: " + mealType + ", mealMl: " + mealMl + ", id:" + id + ", updated: " + updated);
+        Log.d(TAG, "setMeal - (String) mealTime: " + mealTime + ", MealType: " + mealType + ", (Integer) mealMl: " + mealMl + ", (String) id:" + id + ", (Boolean) updated: " + updated);
 
         String mealDetail;
         if (mealType.equals(MealType.DOHRANICA)) {
@@ -75,22 +75,12 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
             mealDetail = mealTime;
         }
 
-        if (updated) {
-            for (Meal meal : MealStorage.getInstance().mealList) {
-                if (meal.getId().equals(id)) {
-                    meal.setMealType(mealType);
-                    meal.setMealDetail(mealDetail);
-                }
-            }
+        if (!updated) {
+            MealStorage.addMeal(getApplicationContext(), new Meal(mealType, mealDetail, id));
         } else {
-            MealStorage.getInstance().mealList.add(new Meal(mealType, mealDetail, id));
+            MealStorage.editMeal(getApplicationContext(), mealType, mealDetail, id);
         }
-        while (MealStorage.getInstance().mealList.size() > 6) {
-            MealStorage.getInstance().saveHistoricalData(this, MealStorage.getInstance().mealList.get(0));
-            MealStorage.getInstance().mealList.remove(0);
-        }
-        MealStorage.getInstance().saveMeals(this);
-        adapter.notifyDataSetChanged();
+        initViews();
     }
 
 }

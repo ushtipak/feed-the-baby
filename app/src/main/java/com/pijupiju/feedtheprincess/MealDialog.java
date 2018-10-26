@@ -111,7 +111,6 @@ public class MealDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String mealTime = etTime.getText().toString();
 
-
                         MainActivity.MealType mealType = null;
                         Integer selectColor = getResources().getColor(R.color.colorPrimaryDark);
 

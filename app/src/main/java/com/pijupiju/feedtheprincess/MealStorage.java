@@ -11,63 +11,97 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MealStorage {
+class MealStorage {
     private final static String TAG = MealStorage.class.getSimpleName();
-    private static MealStorage instance;
 
-    public static MealStorage getInstance() {
-        if (instance == null)
-            instance = new MealStorage();
-        return instance;
-    }
-
-    List<Meal> mealList = new ArrayList<>();
-
-    List<Meal> getMealList(Context context) {
+    static List<Meal> getMeals(Context context) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context);
 
-        mealList = RetrieveMealList(context, "meals-active");
-        return mealList;
+        return RetrieveMealList(context, "meals-active");
     }
 
-    void saveMeals(Context context) {
+    static void addMeal(Context context, Meal targetMeal) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; Meal: " + targetMeal);
 
-        storeMeals(context, "meals-active", mealList);
-    }
+        List<Meal> meals = RetrieveMealList(context, "meals-active");
+        meals.add(targetMeal);
 
-    public void saveHistoricalData(Context context, Meal meal) {
-        String methodName = Objects.requireNonNull(new Object() {
-        }.getClass().getEnclosingMethod()).getName();
-        Log.d(TAG, "-> " + methodName);
-
-        String fileName = "historical-data";
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = context.openFileOutput(fileName, Context.MODE_APPEND);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(meal);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
+        while (meals.size() > 6) {
+            saveHistoricalData(context, meals.get(0));
+            meals.remove(0);
         }
+
+        saveMeals(context, meals);
     }
 
-    public String getNextMeal() {
+    static void removeMeal(Context context, Meal targetMeal) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
 
-        Log.d(TAG, String.valueOf(mealList));
+        List<Meal> meals = RetrieveMealList(context, "meals-active");
+        for (Meal meal : meals) {
+            if (meal.getId().equals(targetMeal.getId())) {
+                meals.remove(meal);
+                break;
+            }
+        }
+        saveMeals(context, meals);
+    }
 
+    static void editMeal(Context context, MainActivity.MealType mealType, String mealDetail, String id) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; MainActivity.MealType: " + mealType + "; (String) mealDetail: " + mealDetail + "; (String) id: " + id);
+
+        List<Meal> meals = RetrieveMealList(context, "meals-active");
+        for (Meal meal : meals) {
+            if (meal.getId().equals(id)) {
+                meal.setMealType(mealType);
+                meal.setMealDetail(mealDetail);
+            }
+        }
+        saveMeals(context, meals);
+    }
+
+    private static void saveMeals(Context context, List<Meal> meals) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; List<Meal>: " + meals);
+
+        storeMeals(context, "meals-active", meals);
+    }
+
+    static private void saveHistoricalData(Context context, Meal targetMeal) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; Meal: " + targetMeal);
+
+        List<Meal> historicalMeals = RetrieveMealList(context, "historical-data");
+        historicalMeals.add(targetMeal);
+
+        storeMeals(context, "historical-data", historicalMeals);
+    }
+
+    static String getNextMeal(Context context) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context);
+
+        List<Meal> meals = RetrieveMealList(context, "meals-active");
         try {
-            MainActivity.MealType lastMeal = mealList.get(mealList.size() - 1).getMealType();
-            MainActivity.MealType oneBeforeMeal = mealList.get(mealList.size() - 2).getMealType();
+            MainActivity.MealType lastMeal = meals.get(meals.size() - 1).getMealType();
+            MainActivity.MealType oneBeforeMeal = meals.get(meals.size() - 2).getMealType();
 
             if (lastMeal.equals(MainActivity.MealType.DESNA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.DESNA_SIKA) ||
                     (lastMeal.equals(MainActivity.MealType.LEVA_SIKA) && oneBeforeMeal.equals(MainActivity.MealType.DESNA_SIKA))) {
@@ -84,7 +118,7 @@ public class MealStorage {
         return "";
     }
 
-    private List<Meal> RetrieveMealList(Context context, String fileName) {
+    static private List<Meal> RetrieveMealList(Context context, String fileName) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
@@ -104,11 +138,11 @@ public class MealStorage {
         return meals;
     }
 
-
-    private void storeMeals(Context context, String fileName, List<Meal> meals) {
+    static private void storeMeals(Context context, String fileName, List<Meal> meals) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
         Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; (String) fileName: " + fileName + "; List<Meal>: " + meals);
 
         FileOutputStream fileOutputStream;
         try {
@@ -117,7 +151,7 @@ public class MealStorage {
             objectOutputStream.writeObject(meals);
             objectOutputStream.close();
             fileOutputStream.close();
-            Log.d(TAG, "mealList [" + fileName + "]: " + String.valueOf(meals));
+            Log.d(TAG, "List<Meal> [" + fileName + "]: " + String.valueOf(meals));
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }

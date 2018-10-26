@@ -66,8 +66,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                MealStorage.removeMeal(context, meal);
                                 mealList.remove(meal);
-                                MealStorage.getInstance().saveMeals(context);
                                 notifyDataSetChanged();
                             }
                         })
@@ -79,7 +79,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mealItem.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "EDIT", Toast.LENGTH_SHORT).show();
                 MealDialog mealDialog = new MealDialog();
 
                 Bundle args = new Bundle();

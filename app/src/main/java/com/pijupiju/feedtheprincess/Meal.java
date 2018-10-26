@@ -26,7 +26,7 @@ public class Meal implements Serializable {
         return mealType;
     }
 
-    public void setMealType(MainActivity.MealType mealType) {
+    void setMealType(MainActivity.MealType mealType) {
         this.mealType = mealType;
     }
 
@@ -34,7 +34,7 @@ public class Meal implements Serializable {
         return mealDetail;
     }
 
-    public void setMealDetail(String mealDetail) {
+    void setMealDetail(String mealDetail) {
         this.mealDetail = mealDetail;
     }
 }
