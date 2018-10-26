@@ -21,7 +21,7 @@ public class MealStorage {
         return instance;
     }
 
-    public List<Meal> mealList = new ArrayList<>();
+    List<Meal> mealList = new ArrayList<>();
 
     public List<Meal> getMealList(Context context) {
         String methodName = Objects.requireNonNull(new Object() {
@@ -104,10 +104,10 @@ public class MealStorage {
         try {
             fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(mealList);
+            objectOutputStream.writeObject(meals);
             objectOutputStream.close();
             fileOutputStream.close();
-            Log.d(TAG, "mealList: " + String.valueOf(mealList));
+            Log.d(TAG, "mealList [" + fileName + "]: " + String.valueOf(meals));
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
