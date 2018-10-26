@@ -58,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements MealDialog.MealDi
                 mealDialog.show(getSupportFragmentManager(), "Meal Dialog");
             }
         });
+
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                MealStorage.getStats(getApplicationContext());
+                return true;
+            }
+        });
     }
 
     @Override

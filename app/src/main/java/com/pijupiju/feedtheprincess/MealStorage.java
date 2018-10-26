@@ -2,6 +2,7 @@ package com.pijupiju.feedtheprincess;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -155,6 +156,23 @@ class MealStorage {
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
+    }
+
+    static void getStats(Context context) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context);
+
+        List<Meal> allMeals = RetrieveMealList(context, "historical-data");
+        allMeals.addAll(RetrieveMealList(context, "meals-active"));
+
+        StringBuilder allTimes = new StringBuilder();
+        for (Meal meal : allMeals) {
+            allTimes.append(meal.getId());
+            allTimes.append("; ");
+        }
+        Toast.makeText(context, allTimes, Toast.LENGTH_LONG).show();
     }
 
 }
