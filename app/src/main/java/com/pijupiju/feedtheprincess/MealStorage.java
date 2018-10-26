@@ -168,14 +168,29 @@ class MealStorage {
         allMeals.addAll(RetrieveMealList(context, "meals-active"));
 
         Calendar cal = Calendar.getInstance();
+        Date date;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        date = cal.getTime();
+        String today = df.format(date);
         cal.add(Calendar.DATE, -1);
-        Date date = cal.getTime();
-        DateFormat yesterday = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        date = cal.getTime();
+        String yesterday = df.format(date);
+
+        Integer todayMealsTotal = 0;
+        Integer todayMealsBottles = 0;
+        for (Meal meal: allMeals) {
+            if (meal.getId().startsWith(today)) {
+                todayMealsTotal++;
+                if (meal.getMealDetail().contains("(")) {
+                    todayMealsBottles++;
+                }
+            }
+        }
 
         Integer yesterdayMealsTotal = 0;
         Integer yesterdayMealsBottles = 0;
         for (Meal meal: allMeals) {
-            if (meal.getId().startsWith(yesterday.format(date))) {
+            if (meal.getId().startsWith(yesterday)) {
                 yesterdayMealsTotal++;
                 if (meal.getMealDetail().contains("(")) {
                     yesterdayMealsBottles++;
@@ -183,16 +198,23 @@ class MealStorage {
             }
         }
 
-        StringBuilder yesterdayStats = new StringBuilder();
-        yesterdayStats.append("[YESTERDAY]\n");
-        yesterdayStats.append("  Total Meals: ");
-        yesterdayStats.append(yesterdayMealsTotal);
-        yesterdayStats.append("\n");
-        yesterdayStats.append("  Bottled Meals: ");
-        yesterdayStats.append(yesterdayMealsBottles);
-        yesterdayStats.append("\n");
+        StringBuilder mealStats = new StringBuilder();
+        mealStats.append("[YESTERDAY]\n");
+        mealStats.append("  Total Meals: ");
+        mealStats.append(yesterdayMealsTotal);
+        mealStats.append("\n");
+        mealStats.append("  Bottled Meals: ");
+        mealStats.append(yesterdayMealsBottles);
+        mealStats.append("\n\n");
+        mealStats.append("[TODAY]\n");
+        mealStats.append("  Total Meals: ");
+        mealStats.append(todayMealsTotal);
+        mealStats.append("\n");
+        mealStats.append("  Bottled Meals: ");
+        mealStats.append(todayMealsBottles);
+        mealStats.append("\n");
 
-        Toast.makeText(context, yesterdayStats, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, mealStats, Toast.LENGTH_LONG).show();
 
         StringBuilder allTimes = new StringBuilder();
         for (Meal meal : allMeals) {
