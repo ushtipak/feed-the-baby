@@ -167,8 +167,57 @@ class MealStorage {
         List<Meal> allMeals = RetrieveMealList(context, "historical-data");
         allMeals.addAll(RetrieveMealList(context, "meals-active"));
 
+        Calendar cal = Calendar.getInstance();
+        Date date;
+        String targetDate;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        date = cal.getTime();
+        targetDate = df.format(date);
+        String statsForToday = getStatsForDate(allMeals, targetDate);
+
+        cal.add(Calendar.DATE, -1);
+        date = cal.getTime();
+        targetDate = df.format(date);
+        String statsForYesterday = getStatsForDate(allMeals, targetDate);
+
+        String dailyStats = statsForYesterday + "\n\n" + statsForToday;
+        Toast.makeText(context, dailyStats, Toast.LENGTH_LONG).show();
+
         String allMealStats = getAllMealStats(allMeals);
         Toast.makeText(context, allMealStats, Toast.LENGTH_LONG).show();
+    }
+
+    static private String getStatsForDate(List<Meal> meals, String targetDate) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> List<Meal>: " + meals + "; (String) targetDate: " + targetDate);
+
+        Integer mealsTotal = 0;
+        Integer mealsBottlesCount = 0;
+        Integer mealsBottlesInMl = 0;
+        for (Meal meal: meals) {
+            if (meal.getId().startsWith(targetDate)) {
+                mealsTotal++;
+                if (meal.getMealDetail().contains("(")) {
+                    mealsBottlesCount++;
+                }
+            }
+        }
+
+        return "[" +
+                targetDate +
+                "]\n" +
+                "  Total Meals: " +
+                mealsTotal +
+                "\n" +
+                "  Bottled Meals: " +
+                mealsBottlesCount +
+                "\n" +
+                "  Bottled Milk: " +
+                mealsBottlesInMl +
+                " ml";
     }
 
     static private String getAllMealStats(List<Meal> meals) {
