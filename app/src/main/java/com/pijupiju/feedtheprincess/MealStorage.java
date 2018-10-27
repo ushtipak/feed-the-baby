@@ -297,7 +297,7 @@ class MealStorage {
 
         StringBuilder allMealStats = new StringBuilder();
         for (Meal meal : meals) {
-            allMealStats.append(meal.getId().substring(0, 9));
+            allMealStats.append(meal.getId().substring(0, 10));
             allMealStats.append(", ");
             allMealStats.append(meal.getMealDetail());
             if (!meal.getMealDetail().contains("ml")) {
