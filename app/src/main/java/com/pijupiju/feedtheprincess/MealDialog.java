@@ -88,7 +88,7 @@ public class MealDialog extends AppCompatDialogFragment {
 
             etTime.setText(currentTime);
 
-            DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-HH-mm-S", Locale.getDefault());
+            DateFormat dateFormatForId = new SimpleDateFormat("yyyy-MM-dd-()-s", Locale.getDefault());
             id = dateFormatForId.format(date);
 
             if (Objects.requireNonNull(nextMeal).equals("LEVA_SIKA")) {
@@ -110,6 +110,7 @@ public class MealDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String mealTime = etTime.getText().toString();
+                        String actualId = Objects.requireNonNull(finalId).replace("()", mealTime);
 
                         MainActivity.MealType mealType = null;
                         Integer selectColor = getResources().getColor(R.color.colorPrimaryDark);
@@ -130,7 +131,7 @@ public class MealDialog extends AppCompatDialogFragment {
                             mealMl = Integer.parseInt(mealMlInput);
                         }
 
-                        listener.setMeal(mealTime, mealType, mealMl, finalId, updated);
+                        listener.setMeal(mealTime, mealType, mealMl, actualId, updated);
                     }
                 });
 
