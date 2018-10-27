@@ -167,61 +167,29 @@ class MealStorage {
         List<Meal> allMeals = RetrieveMealList(context, "historical-data");
         allMeals.addAll(RetrieveMealList(context, "meals-active"));
 
-        Calendar cal = Calendar.getInstance();
-        Date date;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        date = cal.getTime();
-        String today = df.format(date);
-        cal.add(Calendar.DATE, -1);
-        date = cal.getTime();
-        String yesterday = df.format(date);
-
-        Integer todayMealsTotal = 0;
-        Integer todayMealsBottles = 0;
-        for (Meal meal: allMeals) {
-            if (meal.getId().startsWith(today)) {
-                todayMealsTotal++;
-                if (meal.getMealDetail().contains("(")) {
-                    todayMealsBottles++;
-                }
-            }
-        }
-
-        Integer yesterdayMealsTotal = 0;
-        Integer yesterdayMealsBottles = 0;
-        for (Meal meal: allMeals) {
-            if (meal.getId().startsWith(yesterday)) {
-                yesterdayMealsTotal++;
-                if (meal.getMealDetail().contains("(")) {
-                    yesterdayMealsBottles++;
-                }
-            }
-        }
-
-        StringBuilder mealStats = new StringBuilder();
-        mealStats.append("[YESTERDAY]\n");
-        mealStats.append("  Total Meals: ");
-        mealStats.append(yesterdayMealsTotal);
-        mealStats.append("\n");
-        mealStats.append("  Bottled Meals: ");
-        mealStats.append(yesterdayMealsBottles);
-        mealStats.append("\n\n");
-        mealStats.append("[TODAY]\n");
-        mealStats.append("  Total Meals: ");
-        mealStats.append(todayMealsTotal);
-        mealStats.append("\n");
-        mealStats.append("  Bottled Meals: ");
-        mealStats.append(todayMealsBottles);
-        mealStats.append("\n");
-
-        Toast.makeText(context, mealStats, Toast.LENGTH_LONG).show();
-
-        StringBuilder allTimes = new StringBuilder();
-        for (Meal meal : allMeals) {
-            allTimes.append(meal.getId());
-            allTimes.append("; ");
-        }
-        Toast.makeText(context, allTimes, Toast.LENGTH_LONG).show();
+        String allMealStats = getAllMealStats(allMeals);
+        Toast.makeText(context, allMealStats, Toast.LENGTH_LONG).show();
     }
+
+    static private String getAllMealStats(List<Meal> meals) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> List<Meal>: " + meals);
+
+        StringBuilder allMealStats = new StringBuilder();
+        for (Meal meal : meals) {
+            allMealStats.append(meal.getId().substring(0, 9));
+            allMealStats.append(", ");
+            allMealStats.append(meal.getMealDetail());
+            if (!meal.getMealDetail().contains("ml")) {
+                allMealStats.append(" ");
+                allMealStats.append(meal.getMealType().toString().substring(0, 1));
+            }
+            allMealStats.append("\n");
+        }
+        return allMealStats.toString();
+    }
+
 
 }
