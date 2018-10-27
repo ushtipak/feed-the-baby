@@ -1,18 +1,14 @@
 package com.pijupiju.feedtheprincess;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -163,6 +159,35 @@ class MealStorage {
         }
     }
 
+    static private void storeStats(Context context, String stats) {
+        String methodName = Objects.requireNonNull(new Object() {
+        }.getClass().getEnclosingMethod()).getName();
+        Log.d(TAG, "-> " + methodName);
+        Log.d(TAG, methodName + "-> Context: " + context + "; (String) stats: " + stats);
+
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            File outputDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS), "feed-the-princess");
+            Log.d("GOBLIN", String.valueOf(outputDir));
+            Log.d("GOBLIN", "file.mkdir():" + outputDir.mkdir());
+            if (!outputDir.mkdirs()) {
+                Log.e("DON'T FORGET TO", "ALLOW STORAGE FOR APP [!] (https://stackoverflow.com/a/37781236/10150817)");
+            }
+
+            File fileName = new File(outputDir, "stats.txt");
+            FileOutputStream fileOutputStream;
+            try {
+                fileOutputStream = new FileOutputStream(fileName, false);
+                fileOutputStream.write(stats.getBytes());
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        }
+    }
+
     static void getStats(Context context) {
         String methodName = Objects.requireNonNull(new Object() {
         }.getClass().getEnclosingMethod()).getName();
@@ -189,8 +214,8 @@ class MealStorage {
         String dailyStats = statsForYesterday + "\n\n" + statsForToday;
         Toast.makeText(context, dailyStats, Toast.LENGTH_LONG).show();
 
-//        String allMealStats = getAllMealStats(allMeals);
-//        Toast.makeText(context, allMealStats, Toast.LENGTH_LONG).show();
+        String allMealStats = getAllMealStats(allMeals);
+        storeStats(context, allMealStats);
     }
 
     static private String getStatsForDate(List<Meal> meals, String targetDate) {
@@ -206,7 +231,7 @@ class MealStorage {
         Date currentMeal = new Date();
         Date previousMeal = new Date();
 
-        for (Meal meal: meals) {
+        for (Meal meal : meals) {
             if (meal.getId().startsWith(targetDate)) {
 
                 if (mealsTotal.equals(0)) {
@@ -243,8 +268,7 @@ class MealStorage {
                     mealsBottlesCount++;
                     Pattern pattern = Pattern.compile("\\((.*?)\\)");
                     Matcher matcher = pattern.matcher(meal.getMealDetail());
-                    if (matcher.find())
-                    {
+                    if (matcher.find()) {
                         mealsBottlesInMl += Integer.parseInt(matcher.group(1).replace(" ml", ""));
                     }
                 }
