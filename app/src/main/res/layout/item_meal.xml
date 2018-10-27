@@ -13,12 +13,13 @@
             android:gravity="center_vertical|end"
             android:orientation="horizontal"
             style="android:attr/buttonBarStyle">
-        <Button
+        <ImageButton
                 android:id="@+id/btnRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/btn_remove"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:background="@null"
+                android:contentDescription="@string/btn_remove"
+                app:srcCompat="@android:drawable/ic_menu_delete"/>
         <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
