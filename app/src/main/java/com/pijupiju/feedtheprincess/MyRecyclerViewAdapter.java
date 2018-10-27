@@ -11,10 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -107,7 +105,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView tvMealType;
         TextView tvMealDetail;
         ImageButton btnRemove;
-        Button btnEdit;
+        ImageButton btnEdit;
 
         mealItem(View itemView) {
             super(itemView);

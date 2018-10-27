@@ -17,15 +17,18 @@
                 android:id="@+id/btnRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:padding="15dp"
                 android:background="@null"
                 android:contentDescription="@string/btn_remove"
                 app:srcCompat="@android:drawable/ic_menu_delete"/>
-        <Button
+        <ImageButton
                 android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/btn_edit"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:padding="15dp"
+                android:background="@null"
+                android:contentDescription="@string/btn_edit"
+                app:srcCompat="@android:drawable/ic_menu_edit"/>
     </LinearLayout>
 
     <FrameLayout
