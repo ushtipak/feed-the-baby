@@ -9,7 +9,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -199,9 +202,43 @@ class MealStorage {
         Integer mealsTotal = 0;
         Integer mealsBottlesCount = 0;
         Integer mealsBottlesInMl = 0;
+
+        Date currentMeal = new Date();
+        Date previousMeal = new Date();
+
         for (Meal meal: meals) {
             if (meal.getId().startsWith(targetDate)) {
-                mealsTotal++;
+
+                if (mealsTotal.equals(0)) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.getDefault());
+                    try {
+                        previousMeal = formatter.parse("0001-01-01-00-00");
+                    } catch (ParseException e) {
+                        Log.e(TAG, e.toString());
+                    }
+                } else {
+                    previousMeal = currentMeal;
+                }
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-s", Locale.getDefault());
+                try {
+                    currentMeal = simpleDateFormat.parse(meal.getId());
+                } catch (ParseException e) {
+                    Log.e(TAG, e.toString());
+                }
+
+                Long delayBetweenMealsInMin = (currentMeal.getTime() - previousMeal.getTime()) / 1000 / 60;
+
+                Log.d("DE-BUG [previousMeal]", previousMeal.toString());
+                Log.d("DE-BUG [ currentMeal]", currentMeal.toString());
+                Log.d("DE-BUG [        diff]", String.valueOf(delayBetweenMealsInMin));
+
+                if (delayBetweenMealsInMin > 50) {
+                    mealsTotal++;
+                }
+                Log.d("DE-BUG [  mealsTotal]", String.valueOf(mealsTotal));
+
+
                 if (meal.getMealDetail().contains("(")) {
                     mealsBottlesCount++;
                     Pattern pattern = Pattern.compile("\\((.*?)\\)");
