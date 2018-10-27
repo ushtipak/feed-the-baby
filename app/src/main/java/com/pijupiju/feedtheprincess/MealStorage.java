@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class MealStorage {
     private final static String TAG = MealStorage.class.getSimpleName();
@@ -184,8 +186,8 @@ class MealStorage {
         String dailyStats = statsForYesterday + "\n\n" + statsForToday;
         Toast.makeText(context, dailyStats, Toast.LENGTH_LONG).show();
 
-        String allMealStats = getAllMealStats(allMeals);
-        Toast.makeText(context, allMealStats, Toast.LENGTH_LONG).show();
+//        String allMealStats = getAllMealStats(allMeals);
+//        Toast.makeText(context, allMealStats, Toast.LENGTH_LONG).show();
     }
 
     static private String getStatsForDate(List<Meal> meals, String targetDate) {
@@ -202,6 +204,12 @@ class MealStorage {
                 mealsTotal++;
                 if (meal.getMealDetail().contains("(")) {
                     mealsBottlesCount++;
+                    Pattern pattern = Pattern.compile("\\((.*?)\\)");
+                    Matcher matcher = pattern.matcher(meal.getMealDetail());
+                    if (matcher.find())
+                    {
+                        mealsBottlesInMl += Integer.parseInt(matcher.group(1).replace(" ml", ""));
+                    }
                 }
             }
         }
