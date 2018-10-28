@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MealDialog extends AppCompatDialogFragment {
     private final static String TAG = MealDialog.class.getSimpleName();
@@ -131,7 +134,13 @@ public class MealDialog extends AppCompatDialogFragment {
                             mealMl = Integer.parseInt(mealMlInput);
                         }
 
-                        listener.setMeal(mealTime, mealType, mealMl, actualId, updated);
+                        Pattern pattern = Pattern.compile("(?:[01]\\d|2[0123]):(?:[012345]\\d)");
+                        Matcher matcher = pattern.matcher(mealTime);
+                        if (matcher.matches()) {
+                            listener.setMeal(mealTime, mealType, mealMl, actualId, updated);
+                        } else {
+                            Toast.makeText(getContext(), String.format(getString(R.string.msg_incorrect_time), mealTime), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
